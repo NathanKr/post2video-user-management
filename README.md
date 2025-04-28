@@ -158,7 +158,7 @@ Here's a concise recap:
    <h3>should i use role</h3> 
     role like admin \ user is supported in clerk but currently i dont see reason to use it because my use case seems rather simple. but if required - can be used
 
-   <h3>should i put non user info in clerk</h3> 
+   <h3>should i put non user info in clerk user meta data</h3> 
    e.g. credit left per user , number of upload left per user  
 
    in this way i will not need my storage - e.g. mongo db which require :
@@ -168,6 +168,7 @@ Here's a concise recap:
 
    Thus development is faster this way and showing some solution before asking quota seems good enough.
 
+   
    check gemini :
 
    Storing user-specific data like `credit left` and `number of uploads left` in Clerk's metadata (either `publicMetadata` or `privateMetadata`) is recommended for several key reasons:
@@ -179,6 +180,25 @@ Here's a concise recap:
 * **Appropriate Storage:** Clerk's `metadata` fields are specifically designed for storing this kind of application-specific data associated with a user. The 8KB limit per user for metadata is generally sufficient for these types of values.
 
 In essence, Clerk becomes the central authority not just for *who* the user is, but also for key aspects of *what* that user has access to or has remaining within your application. This tight coupling simplifies development and data management for user-specific state.
+
+<h4>clerk rate limit</h4>
+
+note that clerk has rate limit but seems that i am not violating it. it will be great if i have 10 users per minutes and even this way each will need to make 10 api request per minute to violate the free tier - during the start of the project 10 user per minutes seems very optemistic and if viplate it means i get money so switch to clerk paid plan:
+
+   For metadata updates (what you care about), Clerk’s public docs say:
+
+    Free plan:
+    → 100 API requests per minute per project.
+
+    Paid plans (Starter, Business):
+    → Higher limits, like 300–1000+ API requests per minute (depends on your plan).
+
+
+
+   <h3>where to put non user info in clerk user meta data</h3> 
+   e.g. credit left per user , number of upload left per user  
+
+    put in privateMetadata because this can be accessed only on server , you do not want it to appear on client it might get tempered
 
 <h2>Code Structure</h2>
 ....
@@ -230,8 +250,8 @@ export const config = {
 <h2>open issues</h2>
 <ul>
     <li>how to go from development to production</li>
-    <li>how to add user info using api \ dashboard</li>
-    <li>user role : admin , user free tier \ expired and later (user pay tier \ expired ) ->how to implement but currently not required</li>
+    <li>how to add user info using api \ dashboard and should it be public or private</li>
+    <li>user role : admin , user free tier \ expired and later (user pay tier \ expired ) ->i dont know how to implement but currently not required</li>
 </ul>
 
 <h2>References</h2>
