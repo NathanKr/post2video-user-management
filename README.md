@@ -46,7 +46,7 @@ pnpm add @clerk/nextjs
 
 <h4>step 4 : Add clerkMiddleware() to your app</h4>
 
-create middleware.ts on scr root
+create default middleware.ts on src root - it match all pages but will allow navigate to all
 
 ```ts
 import { clerkMiddleware } from '@clerk/nextjs/server'
@@ -159,12 +159,50 @@ Here's a concise recap:
 ....
 
 <h2>Demo</h2>
-....
+<h3>registered users in dashboared</a>
+
+<img src='./figs/registered-users-in-dashboared.png'/>
 
 <h2>Points of Interest</h2>
 <ul>
-    <li>...</li>
-   
+    <li>protecting routes - there are three options: 
+    <ul>
+<li>middleware - using clerkMidlleware (recommended by clerk)
+This will require authentication from all pages beside / and /page-not-restricted
+
+```ts
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+
+const isPublicRoute = createRouteMatcher(["/" , "/page-not-restricted"]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (!isPublicRoute(req)) {
+    await auth.protect();
+  }
+});
+
+export const config = {
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Always run for API routes
+    "/(api|trpc)(.*)",
+  ],
+};
+
+```
+    
+</li>
+    <li>server side - using getAuth</li>
+    <li>client side - using useUser hook</li>
+    </ul>
+</ul>
+
+<h2>open issues</h2>
+<ul>
+    <li>how to go from development to production</li>
+    <li>how to add user info using api \ dashboard</li>
+    <li>how to use roles</li>
 </ul>
 
 <h2>References</h2>
