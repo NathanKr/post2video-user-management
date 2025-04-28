@@ -46,7 +46,7 @@ export default function RootLayout({
             <SignedIn>
               <UserButton />
             </SignedIn>
-            <Link href='/page-restricted'>page-restricted</Link>
+            <Link href='/user-profile'>user-profile</Link>
             <Link href='/page-not-restricted'>page-not-restricted</Link>
           </header>
           {children}

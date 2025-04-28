@@ -155,19 +155,41 @@ Here's a concise recap:
 
     Google OAuth (for YouTube API): Manages authorization for your application to access a user's Google/YouTube account and data on their behalf. It's about what your app is permitted to do with the user's Google account (e.g., upload videos, manage playlists). This requires explicit consent from the user through Google's consent screen.
 
+   <h3>should i use role</h3> 
+    role like admin \ user is supported in clerk but currently i dont see reason to use it because my use case seems rather simple. but if required - can be used
+
+   <h3>should i put non user info in clerk</h3> 
+   e.g. credit left per user , number of upload left per user  
+
+   in this way i will not need my storage - e.g. mongo db which require :
+   - install
+   - backup
+   - access
+
+   Thus development is faster this way and showing some solution before asking quota seems good enough.
+
+   check gemini :
+
+   Storing user-specific data like `credit left` and `number of uploads left` in Clerk's metadata (either `publicMetadata` or `privateMetadata`) is recommended for several key reasons:
+
+* **User-Centric Nature:** This information, while not directly related to authentication, describes the state and attributes of a specific user within your application. It reflects their usage, entitlements, or progress.
+* **Accessibility:** Clerk's user object, which is readily available on both the frontend and backend after authentication, provides a convenient and centralized location to access this user-specific state. This simplifies data retrieval when you need to display this information to the user or make decisions based on it in your application logic.
+* **Simplified Data Management:** Keeping this data tied to the user object in Clerk reduces the need for separate database lookups in many common scenarios. When you have the authenticated user via Clerk, you also have their associated credit or upload count.
+* **Integration with Clerk's Ecosystem:** Clerk's triggers and hooks can be used to automate updates to this metadata based on user actions (e.g., deducting credit after a transaction, decrementing uploads after a successful upload). This allows you to manage user state directly within the Clerk workflow.
+* **Appropriate Storage:** Clerk's `metadata` fields are specifically designed for storing this kind of application-specific data associated with a user. The 8KB limit per user for metadata is generally sufficient for these types of values.
+
+In essence, Clerk becomes the central authority not just for *who* the user is, but also for key aspects of *what* that user has access to or has remaining within your application. This tight coupling simplifies development and data management for user-specific state.
+
 <h2>Code Structure</h2>
 ....
 
-<h2>Demo</h2>
-<h3>registered users in dashboared</a>
+<h2>How to</h2>
 
-<img src='./figs/registered-users-in-dashboared.png'/>
+<h3>protecting routes \ pages</h3>
+there are three options : middleware , client side (using useUser hook) , server side (using getAuth).
 
-<h2>Points of Interest</h2>
-<ul>
-    <li>protecting routes - there are three options: 
-    <ul>
-<li>middleware - using clerkMidlleware (recommended by clerk)
+midleware is recomended by clerk e.g. like this
+
 This will require authentication from all pages beside / and /page-not-restricted
 
 ```ts
@@ -191,18 +213,25 @@ export const config = {
 };
 
 ```
-    
-</li>
-    <li>server side - using getAuth</li>
-    <li>client side - using useUser hook</li>
-    </ul>
+
+
+
+
+<h2>Demo</h2>
+<h3>registered users in dashboared</a>
+
+<img src='./figs/registered-users-in-dashboared.png'/>
+
+<h2>Points of Interest</h2>
+<ul>
+    <li>...</li>
 </ul>
 
 <h2>open issues</h2>
 <ul>
     <li>how to go from development to production</li>
     <li>how to add user info using api \ dashboard</li>
-    <li>how to use roles</li>
+    <li>user role : admin , user free tier \ expired and later (user pay tier \ expired ) ->how to implement but currently not required</li>
 </ul>
 
 <h2>References</h2>
