@@ -200,10 +200,12 @@ note that clerk has rate limit but seems that i am not violating it. it will be 
 
     put in privateMetadata because this can be accessed only on server , you do not want it to appear on client it might get tempered
 
-<h2>Code Structure</h2>
-....
 
-<h2>How to</h2>
+<h2>Code Structure</h2>
+
+<h3>set \ get user info</h3>
+how to set\get user info (e.g. credit left per user , number of upload left per user)  using api \ dashboard and should it be public or private
+
 
 <h3>protecting routes \ pages</h3>
 there are three options : middleware , client side (using useUser hook) , server side (using getAuth).
@@ -249,10 +251,14 @@ export const config = {
 
 <h2>open issues</h2>
 <ul>
-    <li>how to go from development to production</li>
-    <li>how to add user info using api \ dashboard and should it be public or private</li>
-    <li>user role : admin , user free tier \ expired and later (user pay tier \ expired ) ->i dont know how to implement but currently not required</li>
+  <li>how to go from development to production</li>
 </ul>
+
+<h2>Future work</h2>
+<ul>
+    <li>consider using roles : admin , user  not clear if i need it and if i need also other roles e.g. user in free tier \ user in pay tier \ expired free tier \ expired pay tier (there is nice vide by wds) , check <a href='https://youtu.be/5GG-VUvruzE?si=5QRZHzGII5J0rKwt'>here</a></li>
+</ul>
+
 
 <h2>References</h2>
 <ul>
