@@ -1,11 +1,8 @@
 import { IUserData } from "@/types/types";
 import { auth, clerkClient, currentUser, User } from "@clerk/nextjs/server";
 
-
-
 export async function setPrivateData(data: UserPrivateMetadata /*IUserData*/) {
   const client = await clerkClient();
-
 
   const { userId } = await auth();
   if (!userId) {
