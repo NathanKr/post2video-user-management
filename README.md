@@ -108,7 +108,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
+          <header>
             <SignedOut>
               <SignInButton />
               <SignUpButton />
@@ -125,8 +125,24 @@ export default function RootLayout({
 }
 ```
 
+<h4>Production</h4>
+Its time to deploy to production after your app is working as expected with clerk on development.
+
+It important to note that the development env variables in env.local : 
+- NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+- CLERK_SECRET_KEY
+
+have different values in production !!! 
+
+follow the second link there are many steps to follow !!!!!!
+
 <h2>Usage</h2>
-....
+
+Run the devlopment server
+
+```bash
+npm run dev
+```
 
 
 <h2>Technologies Used</h2>
@@ -337,6 +353,6 @@ You can see the user data in the dashboard
 <h2>References</h2>
 <ul>
     <li><a href='https://clerk.com/docs/quickstarts/nextjs#install-clerk-nextjs'>clrek quick start</a></li>
-   
+    <li><a href='https://clerk.com/docs/deployments/overview'>Deploy your Clerk app to production</a></li>   
 </ul>
 
