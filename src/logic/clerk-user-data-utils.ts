@@ -14,7 +14,7 @@ export async function setPrivateMetadata(
 
   const data: UserPrivateMetadata = { ...userData };
 
-  const updatedUser = await client.users.updateUserMetadata(userId, {
+  await client.users.updateUserMetadata(userId, {
     privateMetadata: data,
   });
 }

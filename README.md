@@ -1,3 +1,10 @@
+<h1>TODO</h1>
+- production part is not finish
+- set \ get of the private data member can be very usefull and can eliminate errors
+
+
+
+
 <h1>Project Name</h1>
 Use clerk easyly for user managment of next.js app router app
 
