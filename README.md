@@ -1,16 +1,22 @@
 <h1>Project Name</h1>
-....
 
+Use clerk easyly for user managment of next.js app router app
 
 
 <h2>Project Description</h2>
-....
+This is a next.js app router that uses clerk for user managment
+<ul>
+<li> desicion on pages that require or not login is done very easyly via clerk and the middleware.ts file</li>
+<li> you can login logout easyly via a clerk button and form</li>
+<li> you can store user data easyly using clrek (with zod help)</li>
+</ul>
+
 
 <h2>Motivation</h2>
 <h3>current status</h3> 
-i have passed google oauth verification and now i want to ask for x100 more quota but i want first to have some use managment to have basic app still without payment but i do want the free tier (e.g. up tp 6 videos , total videos 20 mints and total spend 20 cent) mode so google can see the product.
+i have passed google oauth verification and now i want to ask for x100 more quota but i want first to have some user managment to have basic app still without payment but i do want the free tier (e.g. up tp 6 videos , total videos 20 mints and total spend 20 cent) mode so google can see the product.
 
-<h3>use managment</h3> 
+<h3>user managment</h3> 
 to handle free tier i need user managment which include the following
 - store the user signup info e.g. user password
 - store the user role : admin , free tier , free tier expired 
@@ -47,6 +53,7 @@ pnpm add @clerk/nextjs
 <h4>step 4 : Add clerkMiddleware() to your app</h4>
 
 create default middleware.ts on src root - it match all pages but will allow navigate to all
+remark : clerkMiddleware will be changed later
 
 ```ts
 import { clerkMiddleware } from '@clerk/nextjs/server'
@@ -124,20 +131,21 @@ export default function RootLayout({
 
 
 <h2>Technologies Used</h2>
-zod
-next.js app router
-typescript
-clerk
-
+<ul>
+<li>zod</li>
+<li>next.js app router</li>
+<li>typescript</li>
+<li>clerk</li>
+</ul>
 
 <h2>Design</h2>
 questions
  
-<h3>which tool</h3>
+<h3>Which tool for user management</h3>
 given next.js clerk is probably the best choise
 
 
-<h3>sign up to post2video with youtube gmail account only</h3>
+<h3>Sign up to post2video with youtube gmail account only</h3>
 no :
 - this will increase friction 
 - will not eliminate maliciouse free tier user
@@ -146,10 +154,10 @@ no :
 
 do not restrict the suggested signup but for user \ password . clerk verify your email by default by sending you few digit number which you first use to login
 
-<h3>should i ask for google oauth screen after sign up </h3>
+<h3>Should i ask for google oauth screen after sign up </h3>
 no , first two steps do not required it so delay until required and user gain confidence and like the app
 
-<h3>any relation between clerk and google oauth</h3>
+<h3>Any relation between clerk and google oauth</h3>
 Clerk and Google OAuth for accessing Google services (like YouTube API) are strictly separate processes that serve different purposes.
 
 Here's a concise recap:
@@ -158,10 +166,10 @@ Here's a concise recap:
 
     Google OAuth (for YouTube API): Manages authorization for your application to access a user's Google/YouTube account and data on their behalf. It's about what your app is permitted to do with the user's Google account (e.g., upload videos, manage playlists). This requires explicit consent from the user through Google's consent screen.
 
-   <h3>should i use role</h3> 
+   <h3>Should i use role</h3> 
     role like admin \ user is supported in clerk but currently i dont see reason to use it because my use case seems rather simple. but if required - can be used
 
-   <h3>should i put non user info in clerk user meta data</h3> 
+   <h3>Should i put non user info in clerk user meta data</h3> 
    e.g. credit left per user , number of upload left per user  
 
    in this way i will not need my storage - e.g. mongo db which require :
@@ -198,7 +206,7 @@ note that clerk has rate limit but seems that i am not violating it. it will be 
 
 
 
-   <h3>where to put non user info in clerk user meta data</h3> 
+   <h3>Where to put per user info in clerk user meta data : public or private</h3> 
    e.g. credit left per user , number of upload left per user  
 
     put in privateMetadata because this can be accessed only on server , you do not want it to appear on client it might get tempered
@@ -207,8 +215,50 @@ note that clerk has rate limit but seems that i am not violating it. it will be 
 <h2>Code Structure</h2>
 
 <h3>set \ get user info</h3>
-how to set\get user info (e.g. credit left per user , number of upload left per user)  using api \ dashboard and should it be public or private
 
+<h4>get</h4>
+
+```ts
+export async function getPrivateMetadata(): Promise<IPrivateUserData | null> {
+  const user = await getUser();
+
+  if (!user) {
+    throw new Error("user does not exist - you need to sign in");
+  }
+
+  if (!user.privateMetadata) {
+    return null;
+  }
+
+  const privateData = privateUserDataSchema.parse(user.privateMetadata);
+
+  return privateData;
+}
+
+```
+
+<h4>set</h4>
+
+```ts
+export async function setPrivateMetadata(
+  userData: IPrivateUserData
+): Promise<void> {
+  const client = await clerkClient();
+
+  const { userId } = await auth();
+  if (!userId) {
+    throw new Error("userId does not exist - you need to sign in");
+  }
+
+  const data: UserPrivateMetadata = { ...userData };
+
+  const updatedUser = await client.users.updateUserMetadata(userId, {
+    privateMetadata: data,
+  });
+}
+
+
+```
 
 <h3>protecting routes \ pages</h3>
 there are three options : middleware , client side (using useUser hook) , server side (using getAuth).
@@ -243,9 +293,31 @@ export const config = {
 
 
 <h2>Demo</h2>
-<h3>registered users in dashboared</a>
+
+<h3>UI</h3>
+The ui has four pages
+<ul>
+<li>Home - no login required</li>
+<li>PageNotRestricted - no login required</li>
+<li>UserDate - login required</li>
+Here i use the set \ get functions of the user private data 
+<li>UserProfile - login required</li>
+</ul>
+
+You can login \ logout via the person icon (circled in red) 
+
+<img src='./figs/ui-demo.png'/>
+
+<h3>Registered users in dashboared</a>
+You can view and edit from the dashboard
 
 <img src='./figs/registered-users-in-dashboared.png'/>
+
+<h3>private data in dashboard</h3>
+
+You can see the user data in the dashboard
+
+<img src='./figs/user-data-dashboard.png'/>
 
 <h2>Points of Interest</h2>
 <ul>
