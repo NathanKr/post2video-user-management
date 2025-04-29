@@ -1,15 +1,14 @@
 <h1>Project Name</h1>
-
 Use clerk easyly for user managment of next.js app router app
 
 
 <h2>Project Description</h2>
-This is a next.js app router that uses clerk for user managment
+This is a next.js app router project that uses clerk for user managment. it include the following
 <ul>
-<li> desicion on pages that require or not login is done very easyly via clerk and the middleware.ts file</li>
-<li> you can login logout easyly via a clerk button and form</li>
-<li> you can store user data easyly using clrek (with zod help)</li>
-</ul>
+<li>login \ logout using user \ password , social login and more - done very easyly via clerk button and form</li>
+<li>restrict pages to require login - done very easyly via clerk and the middleware.ts file</li>
+<li>read and write to the user private data - done easyly using clrek (with zod help)</li>
+<ul>
 
 
 <h2>Motivation</h2>
