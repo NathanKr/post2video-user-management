@@ -1,7 +1,10 @@
-import { IUserData } from "@/types/types";
+import { IPrivateUserData } from "@/types/types";
 import { auth, clerkClient, currentUser, User } from "@clerk/nextjs/server";
+import { privateUserDataSchema } from "./zod-schemas";
 
-export async function setPrivateData(data: UserPrivateMetadata /*IUserData*/) {
+export async function setPrivateMetadata(
+  userData: IPrivateUserData
+): Promise<void> {
   const client = await clerkClient();
 
   const { userId } = await auth();
@@ -9,26 +12,37 @@ export async function setPrivateData(data: UserPrivateMetadata /*IUserData*/) {
     throw new Error("userId does not exist - you need to sign in");
   }
 
-  await client.users.updateUserMetadata(userId, { privateMetadata: data });
+  const data: UserPrivateMetadata = { ...userData };
+
+  const updatedUser = await client.users.updateUserMetadata(userId, {
+    privateMetadata: data,
+  });
 }
 
-export async function getPrivateMetadata(): Promise<IUserData | null> {
+export async function getPrivateMetadata(): Promise<IPrivateUserData | null> {
   const user = await getUser();
-  return user ? (user.privateMetadata as unknown as IUserData) : null;
+
+  if (!user) {
+    throw new Error("user does not exist - you need to sign in");
+  }
+
+  if (!user.privateMetadata) {
+    return null;
+  }
+
+  const privateData = privateUserDataSchema.parse(user.privateMetadata);
+
+  return privateData;
 }
 
 export async function getUser(): Promise<User | null> {
-  // Get the userId from auth() -- if null, the user is not signed in
   const { userId } = await auth();
 
-  // Protect the route by checking if the user is signed in
   if (!userId) {
     throw new Error("userId does not exist - you need to sign in");
   }
 
-  // Get the Backend API User object when you need access to the user's information
   const user = await currentUser();
 
-  // Use `user` to render user details or create UI elements
   return user;
 }

@@ -124,7 +124,10 @@ export default function RootLayout({
 
 
 <h2>Technologies Used</h2>
-....
+zod
+next.js app router
+typescript
+clerk
 
 
 <h2>Design</h2>
@@ -246,7 +249,7 @@ export const config = {
 
 <h2>Points of Interest</h2>
 <ul>
-    <li>...</li>
+    <li>getting from UserPrivateMetadata to IPrivateUserData is done via zod iwas not able to solve it via global.d.ts</li>
 </ul>
 
 <h2>open issues</h2>

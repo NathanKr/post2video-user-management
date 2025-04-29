@@ -48,6 +48,8 @@ export default function RootLayout({
             </SignedIn>
             <Link href='/user-profile'>user profile</Link>
             <Link href='/page-not-restricted'>page not restricted</Link>
+            <Link href='/user-data'>user data</Link>
+
           </header>
           {children}
         </body>
