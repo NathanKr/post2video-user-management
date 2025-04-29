@@ -1,9 +1,12 @@
 import { IUserData } from "@/types/types";
 import { auth, clerkClient, currentUser, User } from "@clerk/nextjs/server";
 
-const client = await clerkClient();
+
 
 export async function setPrivateData(data: UserPrivateMetadata /*IUserData*/) {
+  const client = await clerkClient();
+
+
   const { userId } = await auth();
   if (!userId) {
     throw new Error("userId does not exist - you need to sign in");
