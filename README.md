@@ -1,6 +1,6 @@
 <h1>TODO</h1>
 - production part is not finish
-- set \ get of the private data member can be very usefull and can eliminate errors
+- should i do set \ get of the private data member ??? can it be very usefull and can eliminate errors ?????? -->do it and ask gemini
 
 
 
