@@ -183,7 +183,7 @@ npm run dev
 <h3>Should I use roles?</h3>
 <p>Roles like admin / user are supported in Clerk, but currently, I don't see a reason to use them because my use case seems rather simple. However, if required, they can be used.</p>
 
-<h3>Should I put non-user info in Clerk user metadata?</h3>
+<h3>Should I put user info in Clerk user metadata?</h3>
 <p>E.g., credit consumed per user, number of videos uploaded per user.</p>
 <p>In this way, I will not need my own storage (e.g., MongoDB) which requires:</p>
 <ul>
