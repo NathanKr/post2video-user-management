@@ -1,78 +1,78 @@
 <h1>Project Name</h1>
-Use clerk easyly for user managment of next.js app router app
+<p>Use Clerk easily for user management of your Next.js App Router app.</p>
 
 
 <h2>Project Description</h2>
-This is a next.js app router project that uses clerk for user managment. it include the following
+<p>This repository demonstrates the implementation of user management with Clerk in a Next.js 15 App Router application, showcasing features like authentication, route protection, and user-specific data management, particularly for a free tier in the post2video app.</p>
+
+<p>It includes the following:</p>
+
 <ul>
-<li>login \ logout using user \ password , social login and more - done very easyly via clerk button and form</li>
-<li>restrict pages to require login - done very easyly via clerk and the middleware.ts file</li>
-<li>read and write to the user private data - done easyly using clrek (with zod help)</li>
+  <li>Login / logout using user / password, social login, and more - done very easily via Clerk button and form.</li>
+  <li>Restrict pages to require login - done very easily via Clerk and the <code>middleware.ts</code> file.</li>
+  <li>Read and write to the user private data - done easily using Clerk (with Zod help).</li>
+</ul>
+
+<h2>My Motivation</h2>
+
+<h3>Current status</h3>
+<p>I have passed Google OAuth verification for post2video and now I want to ask for x100 more quota. I want first to have some user management to have a basic app still without payment, but I do want the free tier (e.g., up to 6 videos, total videos 20 minutes, and total spend 20 cents) mode so Google can see the product.</p>
+
+<h3>User management</h3>
+<p>To handle the free tier, I need user management which includes the following:</p>
 <ul>
+  <li>Store the user signup info, e.g., user email / password.</li>
+  <li>Store the user metadata: number of uploaded videos, consumed cents.</li>
+  <li>Maybe handle user roles: admin, user (free tier, free tier expired?).</li>
+</ul>
 
-
-<h2>Motivation</h2>
-<h3>current status</h3> 
-i have passed google oauth verification and now i want to ask for x100 more quota but i want first to have some user managment to have basic app still without payment but i do want the free tier (e.g. up tp 6 videos , total videos 20 mints and total spend 20 cent) mode so google can see the product.
-
-<h3>user managment</h3> 
-to handle free tier i need user managment which include the following
-- store the user signup info e.g. user password
-- store the user role : admin , free tier , free tier expired 
-- store the user meta data : number of uploaed video , cents reamins to use
-
-<h3>constraints</h3> 
-- i prefer free tool which handle users on his side for up to few tousent of users
-- i use next.js 15 with app router
-- my app use youtube api and to use it you need to authenticate using google oauth2
+<h3>Constraints</h3>
+<ul>
+  <li>I prefer a free tool that handles users on its side for up to a few thousand users.</li>
+  <li>I use Next.js 15 with the App Router.</li>
+  <li>My app post2video uses the YouTube API, and to use it, you need to authenticate using Google OAuth2.</li>
+</ul>
 
 <h2>Installation</h2>
 
-<h3>clerk</a>
+<h3><a href="https://clerk.com">clerk</a></h3>
 
-<h4>step 1 : signup and create app</h4>
+<h4>Step 1: Sign up and create app</h4>
+<p>Notice that the checkboxes are set by default.</p>
+<img src='./figs/create-app-after-signup.png' alt="Clerk create app page after signup with default checkboxes selected" />
 
-notice that check box are set are by default
-<img src='./figs/create-app-after-signup.png'/>
+<h4>Step 2: Set your Clerk API keys</h4>
+<img src='./figs/set-clerk-keys.png' alt="Clerk settings page showing API keys" />
+<p>And copy to <code>.env.local</code>:</p>
+<img src='./figs/copy-keys-to-env-local.png' alt="Screenshot showing Clerk API keys copied to the .env.local file" />
 
-<h4>step 2 : set your clerk api keys</h4>
+<h4>Step 3: Install @clerk/nextjs</h4>
+<pre><code>pnpm add @clerk/nextjs</code></pre>
 
-<img src='./figs/set-clerk-keys.png'/>
+<h4>Step 4: Add <code>clerkMiddleware()</code> to your app</h4>
+<p>Create a default <code>middleware.ts</code> file in the <code>src</code> root. It will match all pages but allow navigation to all.</p>
+<p><strong>Remark:</strong> <code>clerkMiddleware</code> will be changed later.</p>
 
-and copy to env.local
-
-<img src='./figs/copy-keys-to-env-local.png'/>
-
-<h4>step 3 : Install @clerk/nextjs</h4>
-
-```bash
-pnpm add @clerk/nextjs
-```
-
-<h4>step 4 : Add clerkMiddleware() to your app</h4>
-
-create default middleware.ts on src root - it match all pages but will allow navigate to all
-remark : clerkMiddleware will be changed later
 
 ```ts
-import { clerkMiddleware } from '@clerk/nextjs/server'
+import { clerkMiddleware } from "@clerk/nextjs/server";
 
-export default clerkMiddleware()
+export default clerkMiddleware();
 
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     // Always run for API routes
-    '/(api|trpc)(.*)',
+    "/(api|trpc)(.*)",
   ],
-}
+};
 ```
 
 <h4>step 5 : Add <ClerkProvider> and Clerk components to your app</h4>
 
 ```ts
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
 import {
   ClerkProvider,
   SignInButton,
@@ -80,34 +80,36 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
-} from '@clerk/nextjs'
-import { Geist, Geist_Mono } from 'next/font/google'
-import './globals.css'
+} from "@clerk/nextjs";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
 
 const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
 
 const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-})
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  title: 'Clerk Next.js Quickstart',
-  description: 'Generated by create next app',
-}
+  title: "Clerk Next.js Quickstart",
+  description: "Generated by create next app",
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
           <header>
             <SignedOut>
               <SignInButton />
@@ -121,10 +123,9 @@ export default function RootLayout({
         </body>
       </html>
     </ClerkProvider>
-  )
+  );
 }
 ```
-
 
 <h2>Usage</h2>
 
@@ -134,92 +135,98 @@ Run the devlopment server
 npm run dev
 ```
 
-
 <h2>Technologies Used</h2>
 <ul>
-<li>zod</li>
-<li>next.js app router</li>
-<li>typescript</li>
-<li>clerk</li>
+  <li>Clerk</li>
+  <li>Next.js App Router</li>
+  <li>Zod</li>
+  <li>TypeScript</li>
 </ul>
 
+
+
 <h2>Design</h2>
-questions
- 
-<h3>Which tool for user management</h3>
-given next.js clerk is probably the best choise
+<p>These are questions that I asked myself before I started:</p>
 
+<h3>Which tool for user management?</h3>
+<p>Given Next.js, Clerk is probably the best choice.</p>
 
-<h3>Sign up to post2video with youtube gmail account only</h3>
-no :
-- this will increase friction 
-- will not eliminate maliciouse free tier user
-- will not help with later google oauth (may be even complicate it)
-- this is stored thus contradict the fact that google api info is not stored as claimed in <a href='https://www.post2youtube.com/privacy-policy'>privecy policy</a> 
+<h3>Sign up to post2video with YouTube Gmail account only?</h3>
+<p>No:</p>
+<ul>
+  <li>This will increase friction.</li>
+  <li>Will not eliminate malicious free tier users.</li>
+  <li>Will not help with later Google OAuth (may even complicate it).</li>
+  <li>This is stored, thus contradicting the fact that Google API info is not stored as claimed in the <a href='https://www.post2youtube.com/privacy-policy'>privacy policy</a>.</li>
+</ul>
+<p>Do not restrict the suggested signup options. Note that for user / password, Clerk verifies your email by default by sending you a few digit number which you first use to login.</p>
 
-do not restrict the suggested signup but for user \ password . clerk verify your email by default by sending you few digit number which you first use to login
+<h3>Should I ask for the Google OAuth screen after Clerk sign up?</h3>
+<p>No, the first two steps do not require it, so delay until required and the user gains confidence and likes the app.</p>
 
-<h3>Should i ask for google oauth screen after sign up </h3>
-no , first two steps do not required it so delay until required and user gain confidence and like the app
+<h3>Any relation between Clerk and Google OAuth for YouTube API?</h3>
+<p>Clerk and Google OAuth for accessing Google services (like YouTube API) are strictly separate processes that serve different purposes.</p>
 
-<h3>Any relation between clerk and google oauth</h3>
-Clerk and Google OAuth for accessing Google services (like YouTube API) are strictly separate processes that serve different purposes.
+<p>Here's a concise recap:</p>
 
-Here's a concise recap:
+<h4>Clerk</h4>
+<p>Manages the authentication and user identity within your Post2Video application. It handles who your users are, their sign-in methods (including Google Sign-in as an option), and their sessions within your app. Clerk verifies user identities.</p>
 
-    Clerk: Manages the authentication and user identity within your Post2Video application. It handles who your users are, their sign-in methods (including Google Sign-in as an option), and their sessions within your app. Clerk verifies user identities.
+<h4>Google OAuth (for YouTube API)</h4>
+<p>Manages authorization for your application to access a user's Google/YouTube account and data on their behalf. It's about what your app is permitted to do with the user's Google account (e.g., upload videos, manage playlists). This requires explicit consent from the user through Google's consent screen.</p>
 
-    Google OAuth (for YouTube API): Manages authorization for your application to access a user's Google/YouTube account and data on their behalf. It's about what your app is permitted to do with the user's Google account (e.g., upload videos, manage playlists). This requires explicit consent from the user through Google's consent screen.
+<h3>Should I use roles?</h3>
+<p>Roles like admin / user are supported in Clerk, but currently, I don't see a reason to use them because my use case seems rather simple. However, if required, they can be used.</p>
 
-   <h3>Should i use role</h3> 
-    role like admin \ user is supported in clerk but currently i dont see reason to use it because my use case seems rather simple. but if required - can be used
+<h3>Should I put non-user info in Clerk user metadata?</h3>
+<p>E.g., credit consumed per user, number of videos uploaded per user.</p>
+<p>In this way, I will not need my own storage (e.g., MongoDB) which requires:</p>
+<ul>
+  <li>Install</li>
+  <li>Backup</li>
+  <li>Access</li>
+</ul>
+<p>Thus, development is faster this way, and showing some solution before asking for quota seems good enough.</p>
 
-   <h3>Should i put non user info in clerk user meta data</h3> 
-   e.g. credit left per user , number of upload left per user  
+<p>Check Gemini:</p>
+<blockquote>
+  <p>Storing user-specific data like <code>credit consumed</code> and <code>number of videos upload per user</code> in Clerk's metadata (either <code>publicMetadata</code> or <code>privateMetadata</code>) is recommended for several key reasons:</p>
+  <ul>
+    <li>
+      <strong>User-Centric Nature:</strong> This information, while not directly related to authentication, describes the state and attributes of a specific user within your application. It reflects their usage, entitlements, or progress.
+    </li>
+    <li>
+      <strong>Accessibility:</strong> Clerk's user object, which is readily available on both the frontend and backend after authentication, provides a convenient and centralized location to access this user-specific state. This simplifies data retrieval when you need to display this information to the user or make decisions based on it in your application logic.
+    </li>
+    <li>
+      <strong>Simplified Data Management:</strong> Keeping this data tied to the user object in Clerk reduces the need for separate database lookups in many common scenarios. When you have the authenticated user via Clerk, you also have their associated credit or upload count.
+    </li>
+    <li>
+      <strong>Integration with Clerk's Ecosystem:</strong> Clerk's triggers and hooks can be used to automate updates to this metadata based on user actions (e.g., deducting credit after a transaction, decrementing uploads after a successful upload). This allows you to manage user state directly within the Clerk workflow.
+    </li>
+    <li>
+      <strong>Appropriate Storage:</strong> Clerk's <code>metadata</code> fields are specifically designed for storing this kind of application-specific data associated with a user. The 8KB limit per user for metadata is generally sufficient for these types of values.
+    </li>
+  </ul>
+  <p>In essence, Clerk becomes the central authority not just for <em>who</em> the user is, but also for key aspects of <em>what</em> that user has access to or has remaining within your application. This tight coupling simplifies development and data management for user-specific state.</p>
+</blockquote>
 
-   in this way i will not need my storage - e.g. mongo db which require :
-   - install
-   - backup
-   - access
+<h4>Clerk rate limit</h4>
+<p>Note that Clerk has a rate limit, but it seems that I am not violating it. It will be great if I have 10 users per minute, and even this way, each will need to make 10 API requests per minute to violate the free tier. During the start of the project, 10 users per minute seems very optimistic, and if I violate it, it means I'm getting money, so I'll switch to a Clerk paid plan:</p>
+<blockquote>
+  <p>For metadata updates (what you care about), Clerk’s public docs say:</p>
+  <p>Free plan:<br>→ 100 API requests per minute per project.</p>
+  <p>Paid plans (Starter, Business):<br>→ Higher limits, like 300–1000+ API requests per minute (depends on your plan).</p>
+</blockquote>
 
-   Thus development is faster this way and showing some solution before asking quota seems good enough.
-
-   
-   check gemini :
-
-   Storing user-specific data like `credit left` and `number of uploads left` in Clerk's metadata (either `publicMetadata` or `privateMetadata`) is recommended for several key reasons:
-
-* **User-Centric Nature:** This information, while not directly related to authentication, describes the state and attributes of a specific user within your application. It reflects their usage, entitlements, or progress.
-* **Accessibility:** Clerk's user object, which is readily available on both the frontend and backend after authentication, provides a convenient and centralized location to access this user-specific state. This simplifies data retrieval when you need to display this information to the user or make decisions based on it in your application logic.
-* **Simplified Data Management:** Keeping this data tied to the user object in Clerk reduces the need for separate database lookups in many common scenarios. When you have the authenticated user via Clerk, you also have their associated credit or upload count.
-* **Integration with Clerk's Ecosystem:** Clerk's triggers and hooks can be used to automate updates to this metadata based on user actions (e.g., deducting credit after a transaction, decrementing uploads after a successful upload). This allows you to manage user state directly within the Clerk workflow.
-* **Appropriate Storage:** Clerk's `metadata` fields are specifically designed for storing this kind of application-specific data associated with a user. The 8KB limit per user for metadata is generally sufficient for these types of values.
-
-In essence, Clerk becomes the central authority not just for *who* the user is, but also for key aspects of *what* that user has access to or has remaining within your application. This tight coupling simplifies development and data management for user-specific state.
-
-<h4>clerk rate limit</h4>
-
-note that clerk has rate limit but seems that i am not violating it. it will be great if i have 10 users per minutes and even this way each will need to make 10 api request per minute to violate the free tier - during the start of the project 10 user per minutes seems very optemistic and if viplate it means i get money so switch to clerk paid plan:
-
-   For metadata updates (what you care about), Clerk’s public docs say:
-
-    Free plan:
-    → 100 API requests per minute per project.
-
-    Paid plans (Starter, Business):
-    → Higher limits, like 300–1000+ API requests per minute (depends on your plan).
-
-
-
-   <h3>Where to put per user info in clerk user meta data : public or private</h3> 
-   e.g. credit left per user , number of upload left per user  
-
-    put in privateMetadata because this can be accessed only on server , you do not want it to appear on client it might get tempered
+<h3>Where to put per user info in Clerk user metadata: public or private?</h3>
+<p>E.g., credit consumed per user, number of videos uploaded per user.</p>
+<p>Put in <code>privateMetadata</code> because this can be accessed only on the server. You do not want it to appear on the client as it might get tampered with.</p>
 
 
 <h2>Code Structure</h2>
 
-<h3>set \ get user info</h3>
+<h3>set / get user info</h3>
 
 <h4>get</h4>
 
@@ -239,7 +246,6 @@ export async function getPrivateMetadata(): Promise<IPrivateUserData | null> {
 
   return privateData;
 }
-
 ```
 
 <h4>set</h4>
@@ -261,21 +267,17 @@ export async function setPrivateMetadata(
     privateMetadata: data,
   });
 }
-
-
 ```
 
-<h3>protecting routes \ pages</h3>
-there are three options : middleware , client side (using useUser hook) , server side (using getAuth).
-
-midleware is recomended by clerk e.g. like this
-
-This will require authentication from all pages beside / and /page-not-restricted
+<h3>Protecting routes / pages</h3>
+<p>There are three options: middleware, client-side (using the <code>useUser</code> hook), server-side (using <code>getAuth</code>).</p>
+<p>Middleware is recommended by Clerk, e.g., like this:</p>
+<p>This will require authentication from all pages except <code>/</code> and <code>/page-not-restricted</code>.</p>
 
 ```ts
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-const isPublicRoute = createRouteMatcher(["/" , "/page-not-restricted"]);
+const isPublicRoute = createRouteMatcher(["/", "/page-not-restricted"]);
 
 export default clerkMiddleware(async (auth, req) => {
   if (!isPublicRoute(req)) {
@@ -291,60 +293,43 @@ export const config = {
     "/(api|trpc)(.*)",
   ],
 };
-
 ```
-
-
-
 
 <h2>Demo</h2>
 
 <h3>UI</h3>
-The ui has four pages
+<p>The UI has four pages:</p>
 <ul>
-<li>Home - no login required</li>
-<li>PageNotRestricted - no login required</li>
-<li>UserDate - login required</li>
-Here i use the set \ get functions of the user private data 
-<li>UserProfile - login required</li>
+  <li>Home - no login required</li>
+  <li>PageNotRestricted - no login required</li>
+  <li>UserDate - login required<br>Here, I use the set / get functions of the user private data.</li>
+  <li>UserProfile - login required</li>
 </ul>
+<p>You can log in / log out via the person icon (circled in red).</p>
+<img src='./figs/ui-demo.png' alt="UI demo showing login/logout button circled in red" />
 
-You can login \ logout via the person icon (circled in red) 
+<h3>Registered users in dashboard</h3>
+<p>You can view and edit from the dashboard.</p>
+<img src='./figs/registered-users-in-dashboared.png' alt="Clerk dashboard showing registered users" />
 
-<img src='./figs/ui-demo.png'/>
-
-<h3>Registered users in dashboared</a>
-You can view and edit from the dashboard
-
-<img src='./figs/registered-users-in-dashboared.png'/>
-
-<h3>private data in dashboard</h3>
-
-You can see the user data in the dashboard
-
-<img src='./figs/user-data-dashboard.png'/>
+<h3>Private data in dashboard</h3>
+<p>You can see the user data in the dashboard.</p>
+<img src='./figs/user-data-dashboard.png' alt="Clerk dashboard showing user private data" />
 
 <h2>Points of Interest</h2>
 <ul>
-    <li>getting from UserPrivateMetadata to IPrivateUserData is done via zod iwas not able to solve it via global.d.ts</li>
+  <li>Getting from <code>UserPrivateMetadata</code> to <code>IPrivateUserData</code> is done via Zod. I was not able to solve it via <code>global.d.ts</code>.</li>
 </ul>
 
-<h2>open issues</h2>
-<ul>
-  <li>how to go from development to production</li>
-</ul>
 
 <h2>Future work</h2>
 <ul>
-    <li>consider using roles : admin , user  not clear if i need it and if i need also other roles e.g. user in free tier \ user in pay tier \ expired free tier \ expired pay tier (there is nice vide by wds) , check <a href='https://youtu.be/5GG-VUvruzE?si=5QRZHzGII5J0rKwt'>here</a>
-    <li>handle production according to <a href='https://clerk.com/docs/deployments/overview'>Deploy your Clerk app to production</a></li>
-    <li></li>
-    <li>consider set \ get of the private data member . can it be very usefull and can eliminate logic errors ???</li>
+  <li>Consider using roles: admin, user. It's not clear if I need it, and if I need also other roles, e.g., user in free tier / user in pay tier / expired free tier / expired pay tier (there is a nice video by Web Dev Simplified about handling permissions like a senior dev), check <a href='http://www.youtube.com/watch?v=5GG-VUvruzE'>here</a>.</li>
+  <li>Handle production according to <a href='https://clerk.com/docs/deployments/overview'>Deploy your Clerk app to production</a>.</li>
+  <li>Consider set / get of the private data member. Can it be very useful and can it eliminate logic errors?</li>
 </ul>
-
 
 <h2>References</h2>
 <ul>
-    <li><a href='https://clerk.com/docs/quickstarts/nextjs#install-clerk-nextjs'>clrek quick start</a></li>
+  <li><a href='https://clerk.com/docs/quickstarts/nextjs#install-clerk-nextjs'>Clerk Quick Start for Next.js</a></li>
 </ul>
-
