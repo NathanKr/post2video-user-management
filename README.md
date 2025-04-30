@@ -15,7 +15,6 @@
 
 <h2>My Motivation</h2>
 
-<h3>Current status</h3>
 <p>I have passed Google OAuth verification for post2video and now I want to ask for x100 more quota. I want first to have some user management to have a basic app still without payment, but I do want the free tier (e.g., up to 6 videos, total videos 20 minutes, and total spend 20 cents) mode so Google can see the product.</p>
 
 <h3>User management</h3>
@@ -232,6 +231,9 @@ npm run dev
 
 <h2>Code Structure</h2>
 
+<p>This section details the code structure used for user data management and route protection, focusing on Clerk's features within a Next.js application.</p>
+
+
 <h3>set / get user info</h3>
 
 <h4>get</h4>
@@ -302,6 +304,9 @@ export const config = {
 ```
 
 <h2>Demo</h2>
+
+<p>This section demonstrates the user interface and functionality of the application, focusing on the user authentication flow and data management as implemented with Clerk.</p>
+
 
 <h3>UI</h3>
 <p>The UI has four pages:</p>
