@@ -1,5 +1,5 @@
 <h1>Project Name</h1>
-<p>Use Clerk easily for user management of your Next.js App Router app.</p>
+<p>Use Clerk easily for user management of your Next.js App Router application.</p>
 
 
 <h2>Project Description</h2>
@@ -34,6 +34,12 @@
 </ul>
 
 <h2>Installation</h2>
+
+Install the dependencies using
+
+```bash
+pnpm i 
+```
 
 <h3><a href="https://clerk.com">clerk</a></h3>
 
