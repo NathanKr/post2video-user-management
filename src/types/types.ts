@@ -1,6 +1,6 @@
 // export interface IPrivateUserData {
-//     creditLeftCents: number;
-//     numYoutubeVideoUploadLeft: number;
+//     creditConsumedCents: number;
+//     youtubeVideosUploaded: number;
 //   }
 
 import { privateUserDataSchema } from "@/logic/zod-schemas";

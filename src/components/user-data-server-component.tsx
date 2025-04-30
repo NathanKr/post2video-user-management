@@ -11,8 +11,8 @@ export default async function UserDataServerComponent() {
   if (!user) return <p>user is empty</p>;
 
   const userData: IPrivateUserData = {
-    creditLeftCents: 10,
-    numYoutubeVideoUploadLeft: 10,
+    creditConsumedCents: 10,
+    youtubeVideosUploaded: 10,
   };
   await setPrivateMetadata(userData);
   const privateMetadata = await getPrivateMetadata();
@@ -23,7 +23,7 @@ export default async function UserDataServerComponent() {
       <p>
         privateMetadata :{" "}
         {privateMetadata
-          ? `creditLeftCents : ${privateMetadata.creditLeftCents} , numYoutubeVideoUploadLeft : ${privateMetadata.numYoutubeVideoUploadLeft}`
+          ? `creditLeftCents : ${privateMetadata.creditConsumedCents} , numYoutubeVideoUploadLeft : ${privateMetadata.youtubeVideosUploaded}`
           : "N / A"}
       </p>
     </div>

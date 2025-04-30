@@ -1,10 +1,3 @@
-<h1>TODO</h1>
-- production part is not finish
-- should i do set \ get of the private data member ??? can it be very usefull and can eliminate errors ?????? -->do it and ask gemini
-
-
-
-
 <h1>Project Name</h1>
 Use clerk easyly for user managment of next.js app router app
 
@@ -132,16 +125,6 @@ export default function RootLayout({
 }
 ```
 
-<h4>Production</h4>
-Its time to deploy to production after your app is working as expected with clerk on development.
-
-It important to note that the development env variables in env.local : 
-- NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-- CLERK_SECRET_KEY
-
-have different values in production !!! 
-
-follow the second link there are many steps to follow !!!!!!
 
 <h2>Usage</h2>
 
@@ -353,13 +336,15 @@ You can see the user data in the dashboard
 
 <h2>Future work</h2>
 <ul>
-    <li>consider using roles : admin , user  not clear if i need it and if i need also other roles e.g. user in free tier \ user in pay tier \ expired free tier \ expired pay tier (there is nice vide by wds) , check <a href='https://youtu.be/5GG-VUvruzE?si=5QRZHzGII5J0rKwt'>here</a></li>
+    <li>consider using roles : admin , user  not clear if i need it and if i need also other roles e.g. user in free tier \ user in pay tier \ expired free tier \ expired pay tier (there is nice vide by wds) , check <a href='https://youtu.be/5GG-VUvruzE?si=5QRZHzGII5J0rKwt'>here</a>
+    <li>handle production according to <a href='https://clerk.com/docs/deployments/overview'>Deploy your Clerk app to production</a></li>
+    <li></li>
+    <li>consider set \ get of the private data member . can it be very usefull and can eliminate logic errors ???</li>
 </ul>
 
 
 <h2>References</h2>
 <ul>
     <li><a href='https://clerk.com/docs/quickstarts/nextjs#install-clerk-nextjs'>clrek quick start</a></li>
-    <li><a href='https://clerk.com/docs/deployments/overview'>Deploy your Clerk app to production</a></li>   
 </ul>
 
